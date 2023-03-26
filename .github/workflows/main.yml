@@ -27,8 +27,8 @@ jobs:
       uses: arduino/arduino-cli@v1
       with:
         command: upload
-        fqbn: <your-board-fqbn>
-        port: ${{ env.PORT }}
+        fqbn: arduino:avr:uno
+        port: ${{ COM3 }}
 
     - name: Verify build artifacts
       run: |
@@ -40,5 +40,5 @@ jobs:
       with:
         name: build-artifacts
         path: |
-          <path-to-your-built-binary>
+          .build
           <path-to-any-other-build-artifacts>
