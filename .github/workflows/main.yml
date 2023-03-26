@@ -28,7 +28,7 @@ jobs:
       with:
         command: upload
         fqbn: arduino:avr:uno
-        port: ${{ COM3 }}
+        port: ${{ env.COM3 }}
 
     - name: Verify build artifacts
       run: |
