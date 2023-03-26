@@ -40,5 +40,5 @@ jobs:
       with:
         name: build-artifacts
         path: |
-          .build
+          C:\aud
           <path-to-any-other-build-artifacts>
