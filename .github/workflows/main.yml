@@ -1,0 +1,44 @@
+name: Continuous Integration
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup Arduino CLI
+      uses: per1234/setup-arduino-cli@v1
+      with:
+        arduino-cli-version: latest
+
+    - name: Install dependencies
+      run: |
+        arduino-cli lib install "LibraryName1"
+        arduino-cli lib install "LibraryName2"
+
+    - name: Build code
+      run: arduino-cli compile --fqbn <your-board-fqbn>
+
+    - name: Upload code
+      uses: per1234/arduino-upload@v1
+      with:
+        fqbn: <your-board-fqbn>
+        sketch: <path-to-your-sketch>
+        port: ${{ env.PORT }}
+
+    - name: Verify build artifacts
+      run: |
+        # Write any test scripts here to verify the build artifacts, e.g.:
+        # python test.py
+
+    - name: Archive build artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: build-artifacts
+        path: |
+          <path-to-your-built-binary>
+          <path-to-any-other-build-artifacts>
