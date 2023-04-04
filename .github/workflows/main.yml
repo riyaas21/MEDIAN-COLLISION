@@ -1,1 +1,29 @@
+name: Arduino Build and Upload
 
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-upload:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Install Arduino CLI
+      run: |
+        curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | BINDIR=~/.local/bin sh
+        arduino-cli core update-index
+        arduino-cli core install arduino:avr
+
+    - name: Compile Sketch
+      run: arduino-cli compile --fqbn arduino:avr:uno .
+
+    - name: Upload Sketch
+      uses: crazy-max/arduino-serial@v1
+      with:
+        port: ${{ env.C }}
+        sketch: .
+        baud_rate: 9600
